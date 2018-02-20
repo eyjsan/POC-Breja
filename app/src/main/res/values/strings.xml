@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">POC-DeepLink</string>
+    <string name="name">Name: </string>
+    <string name="member_name"></string>
+    <string name="gold">Gold</string>
+    <string name="black">Black</string>
+    <string name="platinum">Platinum</string>
+    <string name="back">Back</string>
+</resources>

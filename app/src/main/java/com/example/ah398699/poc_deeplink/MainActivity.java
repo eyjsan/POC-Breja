@@ -1,6 +1,7 @@
 package com.example.ah398699.poc_deeplink;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -75,26 +76,21 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        try {
-            executeRemoteCommand("coinfo", "", "54.68.88.236", 2222);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-/*        new AsyncTask<Integer, Void, Void>() {
+        new AsyncTask<Integer, Void, Void>() {
             @Override
             protected Void doInBackground(Integer... params) {
                 try {
-                    executeRemoteCommand("coinfo", "", "54.68.88.236", 2222);
+                    executeRemoteCommand("coinfo", "App7C1*0413", "54.68.88.236", 2222, 0);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;
             }
-        }.execute(1);*/
+        }.execute(1);
 
     }
-    public static String executeRemoteCommand(String username, String password, String hostname, int port)
+    public static String executeRemoteCommand(String username, String password, String hostname, int port, Integer btnValue)
         throws Exception {
         JSch jsch = new JSch();
         Session session = jsch.getSession(username, hostname, port);
@@ -113,15 +109,29 @@ public class MainActivity extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         channelssh.setOutputStream(baos);
 
-        // Execute command
+        //Command List
+        String cmdString = "";
 
-        channelssh.setCommand("cat test_file_android.txt");
+        switch (btnValue) {
+            case 0 :
+                cmdString ="TaskAdmin show AppServer SyCoGate";
+                break;
+            case 1 :
+                cmdString ="TaskAdmin stop AppServer SyCoGate";
+                break;
+            case 3 :
+                cmdString="TaskAdmin start AppServer SyCoGate";
+                break;
+            default:
+                break;
+        }
+            // Execute command
+        channelssh.setCommand(cmdString);
         channelssh.connect();
         channelssh.disconnect();
         System.out.println(channelssh);
         return baos.toString();
     }
-
 
 
     @Override

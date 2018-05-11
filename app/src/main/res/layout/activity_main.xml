@@ -43,8 +43,10 @@
         android:id="@+id/backgroundcolor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gold"
         android:layout_marginHorizontal="25dp"
-        android:layout_marginVertical="100dp"/>
+        android:layout_marginVertical="100dp"
+        android:background="#0011ff"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="100dp" />
 
 </android.support.constraint.ConstraintLayout>

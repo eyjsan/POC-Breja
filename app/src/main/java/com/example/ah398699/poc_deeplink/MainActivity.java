@@ -1,16 +1,20 @@
 package com.example.ah398699.poc_deeplink;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
@@ -18,8 +22,12 @@ import com.microsoft.appcenter.crashes.Crashes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Properties;
+
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mFrameBackground;
     private TextView mNameMessage;
     Menu optionsMenu;
-
+    Button btn;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -66,7 +74,55 @@ public class MainActivity extends AppCompatActivity {
         mNameMessage = (TextView) findViewById(R.id.member_name);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+/*        new AsyncTask<Integer, Void, Void>() {
+            @Override
+            protected Void doInBackground(Integer... params) {
+                try {
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(1);*/
+
     }
+    public static String executeRemoteCommand(String username, String password, String hostname, int port)
+        throws Exception {
+        JSch jsch = new JSch();
+        Session session = jsch.getSession(username, hostname, port);
+        session.setPassword(password);
+
+        // Avoid asking for key confirmation
+        Properties prop = new Properties();
+        prop.put("StrictHostKeyChecking", "no");
+        session.setConfig(prop);
+
+        session.connect();
+
+        // SSH Channel
+        ChannelExec channelssh = (ChannelExec)
+                session.openChannel("exec");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        channelssh.setOutputStream(baos);
+
+        // Execute command
+
+        channelssh.setCommand("cat test_file_android.txt");
+        channelssh.connect();
+        channelssh.disconnect();
+        System.out.println(channelssh);
+        return baos.toString();
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

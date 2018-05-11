@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Integer... params) {
                 try {
-                    executeRemoteCommand("coinfo", "App7C1*0413", "54.68.88.236", 2222, 0);
+                    executeRemoteCommand("coinfo", "", "54.68.88.236", 2222, 0);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

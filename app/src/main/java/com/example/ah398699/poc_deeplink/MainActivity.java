@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         try {
-
+            executeRemoteCommand("coinfo", "", "54.68.88.236", 2222);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Integer... params) {
                 try {
-
+                    executeRemoteCommand("coinfo", "", "54.68.88.236", 2222);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
